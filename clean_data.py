@@ -47,32 +47,24 @@ def get_length(DataFrameDict, UniqueBuses):
         length += len(DataFrameDict[key].index)
     return length
 
-def export_to_csv(DataframeDict, UniqueBuses, filepath, filename):
+def export_to_csv(DataframeDict, UniqueBuses, filepath):
     """exports data to  csv"""
     for key in UniqueBuses:
-        final_path = filepath + key + filename
-        DataframeDict[key].to_csv(final_path)
+        DataframeDict[key].to_csv(filepath)
 
 def implement(directory_path, export_filepath):
-    """Takes directory path containing files contsining Data splits the data based on individual buses, truncates seconds and removes time duplicates and exports data to export_filepath"""
+    """Takes directory path containing files containing Data splits the data based on individual buses, truncates seconds and removes time duplicates and exports data to export_filepath"""
     for file in os.listdir(directory_path):
         filename = os.fsdecode(file)
-        print(filename)
         if filename.endswith(".csv"):
-            print(filename)
-            df = create_dataframe(directory_path+filename)
-            #print("Total number of records in dataframe", len(df.index))
+            df = create_dataframe(filename)
             remove_null_values(df)
-            #print("Total number of records in dataframe after null values removed", len(df.index))
             DataFrameDict, UniqueBuses = split_individual_bus_data(df)
-            #total_rec_after_split = get_length(DataFrameDict, UniqueBuses)
-            #print("Total number of dataframes in dictionary", len(DataFrameDict), "and sum of all records in each dataframe", total_rec_after_split)
             DataFrameDict = remove_seconds(DataFrameDict, UniqueBuses)
             DataFrameDict = remove_time_duplicates(DataFrameDict, UniqueBuses)
-            #total_rec_after_rem_duplicates = get_length(DataFrameDict, UniqueBuses)
-            #print("Total number of dataframes in dictionary after removing duplicate time records", len(DataFrameDict), "and sum of all records in each dataframe", total_rec_after_rem_duplicates)
-            #print(df)
-            # print(DataFrameDict, UniqueBuses)
-            export_to_csv(DataFrameDict, UniqueBuses, export_filepath, filename)
+            export_to_csv(DataFrameDict, UniqueBuses, export_filepath)
 
-implement("dataFolder/","cleanedData/")
+directory_path = input("Enter the directory path for the folder with the csv files:")
+export_filepath = input("Enter the export path for the results:")
+
+implement(directory_path, export_filepath)
