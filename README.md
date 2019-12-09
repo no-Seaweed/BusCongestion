@@ -1,4 +1,4 @@
-# preprocess the data
+# Preprocessing the Data
 
 Due to the limitation of github, we are not able to upload dataset, since it is larger than 25 MB.
 
@@ -10,7 +10,7 @@ Once data is cleaned and reduced, using api.py on the bus data directory will al
 
 Once the directory will seperate dates of labeled data is established you are able to run any of the Q1-Q3 files to gain our results from analysis.
 
-# Question solving
+# Question Solving
 
 Run Q1.py, get a folder of result named Q1_results.
 Run Q2.py get a result file named Q2_results.csv.
